@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { ensureApiSession } from "@/lib/apiAuth";
-import { botApi } from "@/lib/botApi";
-import { appConfig } from "@/lib/config";
+import { requestBotAction } from "@/lib/botApi";
 import { rateLimit } from "@/lib/rateLimit";
 
 export async function POST(request: Request) {
@@ -12,10 +11,6 @@ export async function POST(request: Request) {
   }
 
   const body = await request.json();
-  const result = await botApi(`/guild/${appConfig.guildId}/send-message`, {
-    method: "POST",
-    body: JSON.stringify(body)
-  });
+  const result = await requestBotAction("send_message", body);
   return NextResponse.json(result);
 }
-

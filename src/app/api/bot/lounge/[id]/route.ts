@@ -23,6 +23,30 @@ export async function POST(request: Request, context: { params: Promise<{ id: st
   if (body.action === "visibility") {
     return NextResponse.json(await requestBotAction("set_visibility", { loungeId: params.id, visibility: body.visibility }, { timeoutMs: 20_000 }));
   }
+  if (body.action === "theme") {
+    return NextResponse.json(await requestBotAction("set_theme", { loungeId: params.id, theme: body.theme }, { timeoutMs: 20_000 }));
+  }
+  if (body.action === "rename") {
+    return NextResponse.json(await requestBotAction("rename_lounge", { loungeId: params.id, name: body.name }, { timeoutMs: 20_000 }));
+  }
+  if (body.action === "rename_voice") {
+    return NextResponse.json(await requestBotAction("rename_voice", { loungeId: params.id, name: body.name }, { timeoutMs: 20_000 }));
+  }
+  if (body.action === "toggle_notifications") {
+    return NextResponse.json(await requestBotAction("toggle_lounge_notifications", { loungeId: params.id }, { timeoutMs: 20_000 }));
+  }
+  if (body.action === "invite_member") {
+    return NextResponse.json(await requestBotAction("invite_member", { loungeId: params.id, targetUserId: body.targetUserId }, { timeoutMs: 20_000 }));
+  }
+  if (body.action === "remove_member") {
+    return NextResponse.json(await requestBotAction("remove_member", { loungeId: params.id, targetUserId: body.targetUserId }, { timeoutMs: 20_000 }));
+  }
+  if (body.action === "accept_invitation") {
+    return NextResponse.json(await requestBotAction("accept_invitation", { loungeId: params.id, targetUserId: body.targetUserId }, { timeoutMs: 20_000 }));
+  }
+  if (body.action === "decline_invitation") {
+    return NextResponse.json(await requestBotAction("decline_invitation", { loungeId: params.id, targetUserId: body.targetUserId }, { timeoutMs: 20_000 }));
+  }
   if (body.action === "notify") {
     return NextResponse.json(await requestBotAction("notify_lounge", { loungeId: params.id, message: body.message }, { timeoutMs: 20_000 }));
   }

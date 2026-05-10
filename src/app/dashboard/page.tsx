@@ -1,4 +1,5 @@
 import { Flame, Hash, MessageCircle, Users } from "lucide-react";
+import { BotStatusCard } from "@/components/dashboard/BotStatusCard";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { StatCard } from "@/components/ui/StatCard";
 import { getBotStatus } from "@/lib/botApi";
@@ -10,12 +11,14 @@ export default async function DashboardPage() {
 
   return (
     <div className="space-y-6">
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
-        <StatCard label="Bot" value={status.online ? "Online" : "Offline"} hint={status.bot} />
+      <div className="grid gap-4 xl:grid-cols-[1.3fr_2fr]">
+        <BotStatusCard online={status.online} bot={status.bot} guildCount={status.guildCount} uptime={status.uptime} />
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         <StatCard label="Lounges actifs" value={counts.lounges} />
         <StatCard label="Membres acceptés" value={counts.members} />
         <StatCard label="Messages aujourd'hui" value={counts.messagesToday} />
-        <StatCard label="Score global" value={counts.globalScore} />
+          <StatCard label="Score global" value={counts.globalScore} />
+        </div>
       </div>
       <GlassCard className="overflow-hidden p-0">
         <div className="grid gap-0 lg:grid-cols-[1.2fr_0.8fr]">
@@ -70,4 +73,3 @@ async function getCounts() {
     return { lounges: 0, members: 0, messagesToday: 0, globalScore: 0 };
   }
 }
-

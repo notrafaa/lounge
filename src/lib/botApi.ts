@@ -6,9 +6,18 @@ type Json = string | number | boolean | null | { [key: string]: Json | undefined
 export type BotBridgeRequestType =
   | "list_channels"
   | "send_message"
+  | "create_lounge"
   | "repair_lounge"
   | "delete_lounge"
   | "set_visibility"
+  | "set_theme"
+  | "rename_lounge"
+  | "rename_voice"
+  | "toggle_lounge_notifications"
+  | "invite_member"
+  | "remove_member"
+  | "accept_invitation"
+  | "decline_invitation"
   | "notify_lounge";
 
 interface BotBridgeRequestRow {

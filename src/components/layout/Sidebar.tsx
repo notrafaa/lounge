@@ -1,8 +1,9 @@
 import Link from "next/link";
-import { Bot, Flame, Gauge, Hash, LayoutDashboard, MessageSquareText, Settings, Users } from "lucide-react";
+import { Bot, Flame, Hash, LayoutDashboard, MessageSquareText, Settings, Sparkles, Users } from "lucide-react";
 
 const items = [
   { href: "/dashboard", label: "Overview", icon: LayoutDashboard },
+  { href: "/dashboard/studio", label: "Studio", icon: Sparkles },
   { href: "/dashboard/lounges", label: "Lounges", icon: Flame },
   { href: "/dashboard/channels", label: "Salons", icon: Hash },
   { href: "/dashboard/commands", label: "Commandes", icon: MessageSquareText },
@@ -35,4 +36,3 @@ export function Sidebar() {
     </aside>
   );
 }
-

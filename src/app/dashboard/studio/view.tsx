@@ -1,7 +1,8 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Bell, Check, DoorOpen, Eye, EyeOff, Hammer, Plus, RefreshCw, Trash2, UserMinus, UserPlus, X } from "lucide-react";
+import Link from "next/link";
+import { Bell, Check, DoorOpen, ExternalLink, Eye, EyeOff, Hammer, Plus, RefreshCw, Trash2, UserMinus, UserPlus, X } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Input, Textarea } from "@/components/ui/Input";
@@ -122,8 +123,18 @@ export function StudioClient({ lounges }: { lounges: StudioLounge[] }) {
                 <h2 className="text-2xl font-semibold">{selected?.name ?? "Aucun lounge"}</h2>
               </div>
               {selected ? (
-                <div className={`rounded-md px-3 py-2 text-sm ${selected.visibility === "public" ? "bg-emerald-400/15 text-emerald-100" : "bg-white/10 text-white/70"}`}>
-                  {selected.visibility}
+                <div className="flex flex-wrap items-center gap-2">
+                  <Link
+                    href={`/lounge/${selected.id}`}
+                    target="_blank"
+                    className="inline-flex min-h-10 items-center gap-2 rounded-md border border-white/15 bg-white/10 px-3 text-sm text-white/75 transition hover:bg-white/15"
+                  >
+                    <ExternalLink size={16} />
+                    Page custom
+                  </Link>
+                  <div className={`rounded-md px-3 py-2 text-sm ${selected.visibility === "public" ? "bg-emerald-400/15 text-emerald-100" : "bg-white/10 text-white/70"}`}>
+                    {selected.visibility}
+                  </div>
                 </div>
               ) : null}
             </div>

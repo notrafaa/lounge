@@ -36,8 +36,8 @@ interface BotStatusRow {
   online: boolean | null;
   guild_count: number | null;
   uptime_seconds: number | null;
-  services: Record<string, string> | null;
-  metrics: Record<string, number> | null;
+  services?: Record<string, string> | null;
+  metrics?: Record<string, number> | null;
   last_seen_at: string | null;
 }
 
@@ -98,17 +98,28 @@ export async function getBotStatus() {
       .eq("guild_id", appConfig.guildId)
       .maybeSingle<BotStatusRow>();
 
-    if (error) throw error;
-    const lastSeenAt = data?.last_seen_at ? new Date(data.last_seen_at).getTime() : 0;
+    let row = data;
+    if (error) {
+      if (!isMissingStatusColumn(error)) throw error;
+      const fallback = await supabase
+        .from("bot_status")
+        .select("bot_name,online,guild_count,uptime_seconds,last_seen_at")
+        .eq("guild_id", appConfig.guildId)
+        .maybeSingle<BotStatusRow>();
+      if (fallback.error) throw fallback.error;
+      row = fallback.data;
+    }
+
+    const lastSeenAt = row?.last_seen_at ? new Date(row.last_seen_at).getTime() : 0;
     const fresh = lastSeenAt > 0 && Date.now() - lastSeenAt < ONLINE_GRACE_MS;
 
     return {
-      online: Boolean(data?.online && fresh),
-      guildCount: data?.guild_count ?? 0,
-      uptime: data?.uptime_seconds ?? 0,
-      bot: data?.bot_name ?? "Louna",
-      services: data?.services ?? {},
-      metrics: data?.metrics ?? {}
+      online: Boolean(row?.online && fresh),
+      guildCount: row?.guild_count ?? 0,
+      uptime: row?.uptime_seconds ?? 0,
+      bot: row?.bot_name ?? "Louna",
+      services: row?.services ?? {},
+      metrics: row?.metrics ?? {}
     };
   } catch {
     return {
@@ -124,4 +135,9 @@ export async function getBotStatus() {
 
 function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function isMissingStatusColumn(error: { code?: string; message?: string }): boolean {
+  const message = error.message?.toLowerCase() ?? "";
+  return error.code === "PGRST204" || (message.includes("schema cache") && (message.includes("metrics") || message.includes("services")));
 }

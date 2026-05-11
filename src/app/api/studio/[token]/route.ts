@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { requestBotAction } from "@/lib/botApi";
+import { ensureStudioApiAccess } from "@/lib/studioAuth";
 import { supabaseServer } from "@/lib/supabaseServer";
 
 export async function POST(request: Request, context: { params: Promise<{ token: string }> }) {
@@ -7,6 +8,8 @@ export async function POST(request: Request, context: { params: Promise<{ token:
   const body = await request.json().catch(() => ({}));
   const lounge = await getLoungeByToken(token);
   if (!lounge) return NextResponse.json({ error: "Studio introuvable." }, { status: 404 });
+  const denied = await ensureStudioApiAccess(lounge.owner_user_id);
+  if (denied) return denied;
 
   const payload = { loungeId: lounge.id };
   if (body.action === "repair") return NextResponse.json(await requestBotAction("repair_lounge", payload, { timeoutMs: 20_000 }));
@@ -39,13 +42,13 @@ export async function POST(request: Request, context: { params: Promise<{ token:
   return NextResponse.json({ error: "Action inconnue." }, { status: 400 });
 }
 
-async function getLoungeByToken(token: string): Promise<{ id: string } | null> {
+async function getLoungeByToken(token: string): Promise<{ id: string; owner_user_id: string } | null> {
   const safeToken = token.replace(/[^a-zA-Z0-9-]/g, "");
   if (!safeToken || safeToken !== token) return null;
   const supabase = supabaseServer();
   const { data } = await supabase
     .from("lounges")
-    .select("id")
+    .select("id,owner_user_id")
     .or(`studio_token.eq.${safeToken},id.eq.${safeToken}`)
     .is("deleted_at", null)
     .maybeSingle();

@@ -1,11 +1,18 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { OwnerStudioClient, type OwnerStudioData } from "./view";
 import { supabaseServer } from "@/lib/supabaseServer";
+import { discordLoginUrl, getOwnerStudioSession, getStudioAccess } from "@/lib/studioAuth";
 
 export default async function OwnerStudioPage({ params }: { params: Promise<{ token: string }> }) {
   const { token } = await params;
   const data = await getStudio(token);
   if (!data) notFound();
+  const access = await getStudioAccess(data.lounge.owner_user_id);
+  if (!access) {
+    const ownerSession = await getOwnerStudioSession();
+    if (ownerSession) notFound();
+    redirect(discordLoginUrl(`/studio/${token}`));
+  }
   return <OwnerStudioClient data={data} token={token} />;
 }
 

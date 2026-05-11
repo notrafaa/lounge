@@ -17,7 +17,6 @@ export function Sidebar() {
     <aside className="hidden w-64 shrink-0 border-r border-lounge-line bg-[#151b24]/92 p-4 md:block">
       <div className="mb-8 flex items-center gap-3">
         <img src="/images/lounge.png" alt="lounge" className="h-8 w-auto object-contain" />
-        <span className="text-sm font-semibold text-lounge-pearl">lounge</span>
       </div>
       <nav className="space-y-1">
         {items.map((item) => {

@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { loungeTokenFilter, safeLoungeToken } from "@/lib/loungeTokenFilter";
 import { supabaseServer } from "@/lib/supabaseServer";
 
 type Direction = "up" | "down" | "left" | "right";
@@ -71,27 +72,28 @@ export async function POST(request: Request, context: { params: Promise<{ room: 
 }
 
 async function resolveRoom(code: string) {
-  const safeCode = code.replace(/[^a-zA-Z0-9-]/g, "");
-  if (!safeCode || safeCode !== code) return null;
+  const safeCode = safeLoungeToken(code);
+  if (!safeCode) return null;
 
   const supabase = supabaseServer();
-  const { data: lounge } = await supabase
+  const { data: lounge, error } = await supabase
     .from("lounges")
     .select("id,name,owner_user_id,studio_token")
-    .or(`studio_token.eq.${safeCode},id.eq.${safeCode}`)
+    .or(loungeTokenFilter(safeCode))
     .is("deleted_at", null)
     .maybeSingle();
+  if (error) return null;
   if (!lounge) return null;
 
   const { data: existing } = await supabase.from("game_rooms").select("*").eq("invite_code", safeCode).maybeSingle();
   if (existing) return { lounge, room: existing };
 
-  const { data: created, error } = await supabase
+  const { data: created, error: createError } = await supabase
     .from("game_rooms")
     .insert({ lounge_id: lounge.id, invite_code: safeCode, state: initialState() })
     .select("*")
     .single();
-  if (error) throw error;
+  if (createError) throw createError;
   return { lounge, room: created };
 }
 

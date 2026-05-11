@@ -1,5 +1,6 @@
 import { notFound, redirect } from "next/navigation";
 import { OwnerStudioClient, type OwnerStudioData } from "./view";
+import { loungeTokenFilter, safeLoungeToken } from "@/lib/loungeTokenFilter";
 import { supabaseServer } from "@/lib/supabaseServer";
 import { discordLoginUrl, getOwnerStudioSession, getStudioAccess } from "@/lib/studioAuth";
 
@@ -17,15 +18,16 @@ export default async function OwnerStudioPage({ params }: { params: Promise<{ to
 }
 
 async function getStudio(token: string): Promise<OwnerStudioData | null> {
-  const safeToken = token.replace(/[^a-zA-Z0-9-]/g, "");
-  if (!safeToken || safeToken !== token) return null;
+  const safeToken = safeLoungeToken(token);
+  if (!safeToken) return null;
   const supabase = supabaseServer();
-  const { data: lounge } = await supabase
+  const { data: lounge, error } = await supabase
     .from("lounges")
     .select("*")
-    .or(`studio_token.eq.${safeToken},id.eq.${safeToken}`)
+    .or(loungeTokenFilter(safeToken))
     .is("deleted_at", null)
     .maybeSingle();
+  if (error) return null;
   if (!lounge) return null;
 
   const [{ data: owner }, { data: members }, { data: preferences }] = await Promise.all([

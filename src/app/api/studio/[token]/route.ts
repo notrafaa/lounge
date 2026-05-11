@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { requestBotAction } from "@/lib/botApi";
+import { loungeTokenFilter, safeLoungeToken } from "@/lib/loungeTokenFilter";
 import { ensureStudioApiAccess } from "@/lib/studioAuth";
 import { supabaseServer } from "@/lib/supabaseServer";
 
@@ -43,14 +44,15 @@ export async function POST(request: Request, context: { params: Promise<{ token:
 }
 
 async function getLoungeByToken(token: string): Promise<{ id: string; owner_user_id: string } | null> {
-  const safeToken = token.replace(/[^a-zA-Z0-9-]/g, "");
-  if (!safeToken || safeToken !== token) return null;
+  const safeToken = safeLoungeToken(token);
+  if (!safeToken) return null;
   const supabase = supabaseServer();
-  const { data } = await supabase
+  const { data, error } = await supabase
     .from("lounges")
     .select("id,owner_user_id")
-    .or(`studio_token.eq.${safeToken},id.eq.${safeToken}`)
+    .or(loungeTokenFilter(safeToken))
     .is("deleted_at", null)
     .maybeSingle();
+  if (error) return null;
   return data ?? null;
 }

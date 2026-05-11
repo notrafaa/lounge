@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { SnakeClient } from "./view";
+import { loungeTokenFilter, safeLoungeToken } from "@/lib/loungeTokenFilter";
 import { supabaseServer } from "@/lib/supabaseServer";
 
 export default async function SnakePage({ params }: { params: Promise<{ room: string }> }) {
@@ -10,13 +11,14 @@ export default async function SnakePage({ params }: { params: Promise<{ room: st
 }
 
 async function getLounge(room: string): Promise<{ name: string } | null> {
-  const safeRoom = room.replace(/[^a-zA-Z0-9-]/g, "");
-  if (!safeRoom || safeRoom !== room) return null;
-  const { data } = await supabaseServer()
+  const safeRoom = safeLoungeToken(room);
+  if (!safeRoom) return null;
+  const { data, error } = await supabaseServer()
     .from("lounges")
     .select("name")
-    .or(`studio_token.eq.${safeRoom},id.eq.${safeRoom}`)
+    .or(loungeTokenFilter(safeRoom))
     .is("deleted_at", null)
     .maybeSingle();
+  if (error) return null;
   return data ?? null;
 }

@@ -25,3 +25,6 @@ Creating turbopack project { dir: 'C:\\Users\\notra\\Desktop\\lounge\\web', test
  GET /sw.js 404 in 32ms (next.js: 5ms, application-code: 27ms)
  GET /studio/4d4065ef0258f666c72321a5e8bc64edf59b622d94f095ee 404 in 124ms (next.js: 11ms, application-code: 113ms)
  GET /sw.js 404 in 32ms (next.js: 3ms, application-code: 29ms)
+  Reload env: .env
+✓ Compiled in 35ms
+✓ Compiled in 114ms

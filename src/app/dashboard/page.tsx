@@ -12,7 +12,14 @@ export default async function DashboardPage() {
   return (
     <div className="space-y-6">
       <div className="grid gap-4 xl:grid-cols-[1.3fr_2fr]">
-        <BotStatusCard online={status.online} bot={status.bot} guildCount={status.guildCount} uptime={status.uptime} />
+        <BotStatusCard
+          online={status.online}
+          bot={status.bot}
+          guildCount={status.guildCount}
+          uptime={status.uptime}
+          services={status.services}
+          metrics={status.metrics}
+        />
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         <StatCard label="Lounges actifs" value={counts.lounges} />
         <StatCard label="Membres acceptés" value={counts.members} />
@@ -36,7 +43,7 @@ export default async function DashboardPage() {
               <Pill icon={<MessageCircle size={16} />} label="Messages" />
             </div>
           </div>
-          <div className="min-h-72 bg-[url('/images/banner.png')] bg-cover bg-center" />
+          <div className="min-h-72 bg-cover bg-center" style={{ backgroundImage: "url('/images/bannière2.png')" }} />
         </div>
       </GlassCard>
     </div>

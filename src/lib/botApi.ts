@@ -18,7 +18,11 @@ export type BotBridgeRequestType =
   | "remove_member"
   | "accept_invitation"
   | "decline_invitation"
-  | "notify_lounge";
+  | "notify_lounge"
+  | "fetch_user_dm"
+  | "send_user_dm"
+  | "delete_user_bot_dms"
+  | "guild_member_action";
 
 interface BotBridgeRequestRow {
   id: string;
@@ -32,6 +36,8 @@ interface BotStatusRow {
   online: boolean | null;
   guild_count: number | null;
   uptime_seconds: number | null;
+  services: Record<string, string> | null;
+  metrics: Record<string, number> | null;
   last_seen_at: string | null;
 }
 
@@ -88,7 +94,7 @@ export async function getBotStatus() {
     const supabase = supabaseServer();
     const { data, error } = await supabase
       .from("bot_status")
-      .select("bot_name,online,guild_count,uptime_seconds,last_seen_at")
+      .select("bot_name,online,guild_count,uptime_seconds,services,metrics,last_seen_at")
       .eq("guild_id", appConfig.guildId)
       .maybeSingle<BotStatusRow>();
 
@@ -100,14 +106,18 @@ export async function getBotStatus() {
       online: Boolean(data?.online && fresh),
       guildCount: data?.guild_count ?? 0,
       uptime: data?.uptime_seconds ?? 0,
-      bot: data?.bot_name ?? "Louna"
+      bot: data?.bot_name ?? "Louna",
+      services: data?.services ?? {},
+      metrics: data?.metrics ?? {}
     };
   } catch {
     return {
       online: false,
       guildCount: 0,
       uptime: 0,
-      bot: "Louna"
+      bot: "Louna",
+      services: {},
+      metrics: {}
     };
   }
 }

@@ -2,9 +2,9 @@ import { LogOut, Sparkles } from "lucide-react";
 
 export function Topbar() {
   return (
-    <header className="flex items-center justify-between border-b border-white/10 bg-black/10 px-4 py-3 md:px-6">
+    <header className="flex items-center justify-between border-b border-lounge-line bg-lounge-panel/55 px-4 py-3 md:px-6">
       <div>
-        <p className="text-xs uppercase tracking-[0.18em] text-lounge-champagne">lounge🥂</p>
+        <p className="text-xs uppercase tracking-[0.18em] text-lounge-champagne">lounge</p>
         <h1 className="text-xl font-semibold">Louna Control Room</h1>
       </div>
       <form action="/api/auth/logout" method="post">
@@ -17,4 +17,3 @@ export function Topbar() {
     </header>
   );
 }
-

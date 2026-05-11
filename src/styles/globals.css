@@ -4,13 +4,14 @@
 
 :root {
   color-scheme: dark;
-  --bg: #07080b;
-  --panel: rgba(255, 255, 255, 0.07);
-  --line: rgba(255, 255, 255, 0.14);
-  --text: #f7f8fb;
-  --muted: #aab6c3;
-  --mist: #d8ecfb;
-  --champagne: #e8d6b5;
+  --bg: #111720;
+  --panel: rgba(32, 39, 53, 0.78);
+  --line: rgba(232, 226, 216, 0.16);
+  --text: #f3efe9;
+  --muted: #aeb7c2;
+  --mist: #92b4d6;
+  --champagne: #e8e1d7;
+  --online: #4fc878;
 }
 
 * {
@@ -42,10 +43,10 @@ select {
 }
 
 .glass {
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.045));
+  background: linear-gradient(145deg, rgba(36, 44, 59, 0.86), rgba(24, 31, 42, 0.78));
   border: 1px solid var(--line);
-  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.28);
-  backdrop-filter: blur(18px);
+  box-shadow: 0 24px 80px rgba(5, 9, 14, 0.42);
+  backdrop-filter: blur(16px);
 }
 
 .lounge-scrollbar::-webkit-scrollbar {
@@ -53,7 +54,6 @@ select {
 }
 
 .lounge-scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.18);
+  background: rgba(232, 226, 216, 0.18);
   border-radius: 999px;
 }
-

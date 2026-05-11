@@ -17,13 +17,14 @@ export interface StudioLounge {
   text_channel_id: string | null;
   control_channel_id: string | null;
   voice_channel_id: string | null;
+  studio_token: string | null;
 }
 
 const themes = [
-  { id: "moon-glass", label: "Moon Glass", swatch: "bg-[#d8ecfb]" },
-  { id: "champagne", label: "Champagne", swatch: "bg-[#e8d6b5]" },
-  { id: "lake-night", label: "Lake Night", swatch: "bg-[#7fb7d7]" },
-  { id: "velvet", label: "Velvet", swatch: "bg-[#b56aa4]" }
+  { id: "moon-glass", label: "Moon Glass", swatch: "bg-[#92b4d6]" },
+  { id: "champagne", label: "Champagne", swatch: "bg-[#e8e1d7]" },
+  { id: "lake-night", label: "Lake Night", swatch: "bg-[#4f7f92]" },
+  { id: "velvet", label: "Velvet", swatch: "bg-[#c9a5bb]" }
 ];
 
 export function StudioClient({ lounges }: { lounges: StudioLounge[] }) {
@@ -124,6 +125,22 @@ export function StudioClient({ lounges }: { lounges: StudioLounge[] }) {
               </div>
               {selected ? (
                 <div className="flex flex-wrap items-center gap-2">
+                  <Link
+                    href={`/studio/${selected.studio_token ?? selected.id}`}
+                    target="_blank"
+                    className="inline-flex min-h-10 items-center gap-2 rounded-md border border-white/15 bg-white/10 px-3 text-sm text-white/75 transition hover:bg-white/15"
+                  >
+                    <ExternalLink size={16} />
+                    Studio owner
+                  </Link>
+                  <Link
+                    href={`/game/snake/${selected.studio_token ?? selected.id}`}
+                    target="_blank"
+                    className="inline-flex min-h-10 items-center gap-2 rounded-md border border-white/15 bg-white/10 px-3 text-sm text-white/75 transition hover:bg-white/15"
+                  >
+                    <ExternalLink size={16} />
+                    Snake
+                  </Link>
                   <Link
                     href={`/lounge/${selected.id}`}
                     target="_blank"

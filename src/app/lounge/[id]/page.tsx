@@ -34,31 +34,31 @@ interface LoungePageData {
 const themeMap = {
   "moon-glass": {
     name: "Moon Glass",
-    bg: "from-[#05070b] via-[#101722] to-[#05070b]",
-    panel: "border-sky-200/18 bg-sky-100/8",
-    accent: "text-sky-100",
-    chip: "border-sky-200/20 bg-sky-200/10 text-sky-50"
+    bg: "from-[#111720] via-[#202735] to-[#141a23]",
+    panel: "border-[#e8e1d7]/18 bg-[#202735]/72",
+    accent: "text-[#e8e1d7]",
+    chip: "border-[#e8e1d7]/20 bg-[#e8e1d7]/10 text-[#f3efe9]"
   },
   champagne: {
     name: "Champagne",
-    bg: "from-[#100e0a] via-[#241d13] to-[#080706]",
-    panel: "border-amber-100/18 bg-amber-100/9",
-    accent: "text-amber-100",
-    chip: "border-amber-100/20 bg-amber-100/10 text-amber-50"
+    bg: "from-[#151b24] via-[#252b35] to-[#111720]",
+    panel: "border-[#e8e1d7]/20 bg-[#242b36]/78",
+    accent: "text-[#e8e1d7]",
+    chip: "border-[#e8e1d7]/22 bg-[#e8e1d7]/11 text-[#f3efe9]"
   },
   "lake-night": {
     name: "Lake Night",
-    bg: "from-[#061013] via-[#0d2630] to-[#05090b]",
-    panel: "border-cyan-100/18 bg-cyan-100/8",
-    accent: "text-cyan-100",
-    chip: "border-cyan-100/20 bg-cyan-100/10 text-cyan-50"
+    bg: "from-[#101821] via-[#1f3340] to-[#121820]",
+    panel: "border-[#92b4d6]/22 bg-[#202f3a]/72",
+    accent: "text-[#b8d0e5]",
+    chip: "border-[#92b4d6]/24 bg-[#92b4d6]/12 text-[#e8f1f8]"
   },
   velvet: {
     name: "Velvet",
-    bg: "from-[#100611] via-[#261126] to-[#070407]",
-    panel: "border-fuchsia-100/18 bg-fuchsia-100/8",
-    accent: "text-fuchsia-100",
-    chip: "border-fuchsia-100/20 bg-fuchsia-100/10 text-fuchsia-50"
+    bg: "from-[#151720] via-[#2a2632] to-[#111720]",
+    panel: "border-[#c9a5bb]/22 bg-[#2a2632]/74",
+    accent: "text-[#e5c9d9]",
+    chip: "border-[#c9a5bb]/24 bg-[#c9a5bb]/12 text-[#f3e8ef]"
   }
 };
 

@@ -1,7 +1,21 @@
 import clsx from "clsx";
-import { Bot, CircleAlert, Signal } from "lucide-react";
+import { Bot, CircleAlert, Cpu, Gamepad2, LayoutGrid, Signal, Sparkles, Users } from "lucide-react";
 
-export function BotStatusCard({ online, bot, guildCount, uptime }: { online: boolean; bot: string; guildCount: number; uptime: number }) {
+export function BotStatusCard({
+  online,
+  bot,
+  guildCount,
+  uptime,
+  services = {},
+  metrics = {}
+}: {
+  online: boolean;
+  bot: string;
+  guildCount: number;
+  uptime: number;
+  services?: Record<string, string>;
+  metrics?: Record<string, number>;
+}) {
   return (
     <section
       className={clsx(
@@ -18,6 +32,12 @@ export function BotStatusCard({ online, bot, guildCount, uptime }: { online: boo
           <p className="mt-2 text-sm text-white/60">
             {bot} · {guildCount} serveur(s) · {formatUptime(uptime)}
           </p>
+          <div className="mt-4 grid gap-2 sm:grid-cols-2">
+            <StatusLine icon={<Cpu size={15} />} label="IA" value={services.ia ?? "fallback"} />
+            <StatusLine icon={<Sparkles size={15} />} label="Studio" value={services.studio ?? "prêt"} />
+            <StatusLine icon={<LayoutGrid size={15} />} label="Catégories" value={String(metrics.activeLounges ?? 0)} />
+            <StatusLine icon={<Users size={15} />} label="Actifs 24h" value={String(metrics.activeMembers24h ?? 0)} />
+          </div>
         </div>
         <div
           className={clsx(
@@ -28,8 +48,18 @@ export function BotStatusCard({ online, bot, guildCount, uptime }: { online: boo
           {online ? <Signal size={26} /> : <CircleAlert size={26} />}
         </div>
       </div>
-      <Bot className={clsx("absolute -bottom-5 -right-4 h-28 w-28 opacity-10", online ? "text-emerald-100" : "text-rose-100")} />
+      <Gamepad2 className={clsx("absolute -bottom-5 -right-4 h-28 w-28 opacity-10", online ? "text-emerald-100" : "text-rose-100")} />
+      <Bot className={clsx("absolute -bottom-4 right-20 h-16 w-16 opacity-10", online ? "text-emerald-100" : "text-rose-100")} />
     </section>
+  );
+}
+
+function StatusLine({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
+  return (
+    <div className="flex items-center justify-between gap-2 rounded-md border border-white/10 bg-black/12 px-2.5 py-2 text-xs text-white/65">
+      <span className="flex items-center gap-1.5">{icon}{label}</span>
+      <span className="font-medium text-white/85">{value}</span>
+    </div>
   );
 }
 

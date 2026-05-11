@@ -7,12 +7,12 @@ export default async function OwnerLoungePage({ params }: { params: Promise<{ ow
   const supabase = supabaseServer();
   const { data } = await supabase
     .from("lounges")
-    .select("id")
+    .select("id,studio_token")
     .eq("guild_id", appConfig.guildId)
     .eq("owner_user_id", ownerUserId)
     .is("deleted_at", null)
     .maybeSingle();
 
   if (!data?.id) notFound();
-  redirect(`/lounge/${data.id}`);
+  redirect(`/studio/${data.studio_token ?? data.id}`);
 }

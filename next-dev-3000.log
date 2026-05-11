@@ -1,0 +1,11 @@
+
+> lounge-dashboard@1.0.0 dev
+> next dev --port 3000
+
+▲ Next.js 16.2.6 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.1.15:3000
+- Environments: .env
+✓ Ready in 640ms
+Creating turbopack project { dir: 'C:\\Users\\notra\\Desktop\\lounge\\web', testMode: true }
+

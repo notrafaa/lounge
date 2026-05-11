@@ -6,21 +6,22 @@ const config: Config = {
     extend: {
       colors: {
         lounge: {
-          ink: "#07080b",
-          panel: "#10131a",
-          glass: "rgba(255,255,255,0.08)",
-          line: "rgba(255,255,255,0.16)",
-          mist: "#d8ecfb",
-          champagne: "#e8d6b5",
-          pearl: "#f7f8fb"
+          ink: "#151b24",
+          panel: "#202735",
+          glass: "rgba(232,226,216,0.075)",
+          line: "rgba(232,226,216,0.16)",
+          mist: "#92b4d6",
+          champagne: "#e8e1d7",
+          pearl: "#f3efe9",
+          online: "#4fc878"
         }
       },
       boxShadow: {
-        glass: "0 24px 80px rgba(0,0,0,0.35)"
+        glass: "0 24px 80px rgba(5,9,14,0.42)"
       },
       backgroundImage: {
         "lounge-radial":
-          "radial-gradient(circle at 18% 18%, rgba(216,236,251,0.18), transparent 34%), radial-gradient(circle at 84% 12%, rgba(232,214,181,0.15), transparent 30%), linear-gradient(135deg, #07080b 0%, #111722 54%, #0b0d13 100%)"
+          "radial-gradient(circle at 14% 10%, rgba(232,225,215,0.12), transparent 32%), radial-gradient(circle at 86% 4%, rgba(79,200,120,0.08), transparent 26%), linear-gradient(135deg, #111720 0%, #1b2330 48%, #141a23 100%)"
       }
     }
   },
@@ -28,4 +29,3 @@ const config: Config = {
 };
 
 export default config;
-

@@ -31,7 +31,7 @@ export default function LoginPage() {
   return (
     <main className="grid min-h-screen place-items-center bg-lounge-radial p-4">
       <form onSubmit={submit} className="glass w-full max-w-md rounded-lg p-6">
-        <img src="/images/lounge-wordmark.png" alt="lounge" className="mb-8 h-10 w-auto" />
+        <img src="/images/lounge.png" alt="lounge" className="mb-8 h-16 w-auto object-contain" />
         <div className="mb-6">
           <p className="text-xs uppercase tracking-[0.18em] text-lounge-champagne">admin</p>
           <h1 className="mt-2 text-2xl font-semibold">Entrer dans le salon de contrôle</h1>
@@ -47,4 +47,3 @@ export default function LoginPage() {
     </main>
   );
 }
-
